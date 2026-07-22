@@ -1,11 +1,11 @@
 use crate::TakeValue::*;
 use anyhow::{anyhow, bail, Result};
 use clap::Parser;
-use once_cell::sync::OnceCell;
 use regex::Regex;
 use std::{
     fs::File,
     io::{BufRead, BufReader, Read, Seek, SeekFrom},
+    sync::OnceLock,
 };
 
 #[derive(Debug, Parser)]
@@ -29,7 +29,7 @@ struct Args {
     quiet: bool,
 }
 
-static NUM_RE: OnceCell<Regex> = OnceCell::new();
+static NUM_RE: OnceLock<Regex> = OnceLock::new();
 
 #[derive(Debug, PartialEq)]
 enum TakeValue {
